@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie List</title>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">Movie Directory</h2>
+
+    <table class="table table-hover table-bordered text-center">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Genre</th>
+                <th>IMDB Rating</th>
+                <th>Year</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>People</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td class="align-middle">{{ i.name }}</td>
+                <td class="align-middle">{{ i.Genre }}</td>
+                <td class="align-middle">{{ i.Imdb }}</td>
+                <td class="align-middle">{{ i.year }}</td>
+                <td class="align-middle text-wrap" style="max-width: 250px;">{{ i.Description }}</td>
+                <td class="align-middle">
+                    <img src="{{ i.Image.url }}" alt="Movie Image" width="80" height="80" class="rounded">
+                </td>
+                <td class="align-middle">
+                    {% for person in i.people.all %}
+                        <p>{{ person.name }} ({{ person.role }})</p>
+                    {% empty %}
+                        <p>No People Assigned</p>
+                    {% endfor %}
+                </td>
+                <td class="align-middle">
+                    <a href="{% url 'Edit_movies' mid=i.id %}">
+                        <button class="btn btn-outline-danger btn-sm">Edit</button>
+                    </a>
+                    <a href="{% url 'del_movies' mid=i.id %}">
+                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+{% endblock %}

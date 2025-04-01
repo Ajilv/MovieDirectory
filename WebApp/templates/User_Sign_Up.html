@@ -1,0 +1,132 @@
+
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+  	<title>Movie - Sign Up</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+	 <link href="https://fonts.cdnfonts.com/css/star-wars" rel="stylesheet">
+	  <link href="https://fonts.cdnfonts.com/css/sahara" rel="stylesheet">
+
+	  <style>
+		  input{
+		  font-family: 'Star Wars', sans-serif;
+
+		  }
+	  </style>
+
+	</head>
+	<body class="img js-fullheight" style="background-image: url({% static 'login/images/aaabbggg.jpg' %});">
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5 ">
+					<h2 style="color:Azure; font-family: 'Star Wars', sans-serif;">Registration</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+						<form method="post" action="{% url 'Save_Sign_Up' %}" class="signin-form" onsubmit="PasswordValidation(event)" name="FormPass">
+							{% csrf_token %}
+							<div class="form-group">
+								<input  type="text" class="form-control" placeholder="Username" name="username">
+							</div>
+							<div class="form-group">
+								<input id="password-field" type="password" class="form-control" placeholder="Password" name="pass1" >
+								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+							</div>
+							<div class="form-group">
+								<input  type="password" class="form-control" placeholder="Conform Password" name="pass2" >
+								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+							</div>
+
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Email" name="email" >
+							</div>
+
+							<div class="form-group">
+								<button type="submit" style="font-family: Courier, monospace;" class="form-control  btn btn-primary  px-3">Register</button>
+							</div>
+						</form>
+						<p class="w-100 text-center" style="color:black; font-family: 'Sahara', sans-serif;">&mdash; Or Sign Up With &mdash;</p>
+						<div class="social d-flex text-center">
+							<a href="{% url 'User_Sign_In' %}" class="px-2 py-2 mr-md-1 text-center btn" style="font-family: Courier, monospace;">Sign In</a>
+						</div>
+		      		</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="{% static 'login/js/jquery.min.js' %}"></script>
+  	<script src="{% static 'login/js/popper.js' %}"></script>
+  	<script src="{% static 'login/js/bootstrap.min.js' %}"></script>
+  	<script src="{% static 'login/js/main.js' %}"></script>
+
+	<script>
+	function PasswordValidation(event) {
+    let u = document.FormPass.username.value;
+    let e = document.FormPass.email.value;
+    let p1 = document.FormPass.pass1.value;
+    let p2 = document.FormPass.pass2.value;
+
+    if (u == "") {
+        alert("Username can't be blank...!");
+        event.preventDefault();
+    } else if (e == "") {
+        alert("Email can't be blank...!");
+        event.preventDefault();
+    } else if (p1 == "") {
+        alert("Password can't be blank...!");
+        event.preventDefault();
+    } else if (p2 == "") {
+        alert("Confirm Password can't be blank...!");
+        event.preventDefault();
+    } else if (p1.length < 6) {
+        alert("Password must contain at least 6 characters...!");
+        event.preventDefault();
+    } else if (p1 !== p2) {
+        alert("Passwords don't match...!");
+        event.preventDefault();
+    }
+}
+	</script>
+
+
+
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        {% if messages %}
+            {% for i in messages %}
+                {% if i.tags == 'success' %}
+                    <script>
+                        swal('{{i}}','','success');
+                    </script>
+                {% elif i.tags == 'error' %}
+                    <script>
+                        swal('{{i}}','','error');
+                    </script>
+                {% elif i.tags == 'warning' %}
+                    <script>
+                        swal('{{i}}','','warning');
+                    </script>
+                {% else %}
+                    <script>
+                        swal('{{i}}','','info');
+                    </script>
+
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+	</body>
+</html>
+

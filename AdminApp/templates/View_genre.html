@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Genre List</title>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">Genre Directory</h2>
+
+    <table class="table table-hover table-bordered text-center">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td class="align-middle">{{ i.name }}</td>
+                <td class="align-middle text-wrap" style="max-width: 350px;">{{ i.Desc }}</td>
+                <td class="align-middle">
+                    <a href="#">
+                        <button class="btn btn-outline-danger btn-sm">Edit</button>
+                    </a>
+                    <a href="#">
+                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+{% endblock %}

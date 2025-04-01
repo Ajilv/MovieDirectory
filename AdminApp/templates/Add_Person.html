@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Person</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h3>Add a New Person</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" action="{% url 'save_person' %}">
+                {% csrf_token %}
+
+                <!-- Person Name -->
+                <div class="mb-3">
+                    <label class="form-label">Person Name</label>
+                    <input type="text" class="form-control" name="name" placeholder="Enter person's name" required>
+                </div>
+
+                <!-- Role (Actor, Director, etc.) -->
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <input type="text" class="form-control" name="role" placeholder="Enter role (Actor, Director, etc.)" required>
+                </div>
+
+                <!-- Person Photo Upload -->
+                <div class="mb-3">
+                    <label class="form-label">Photo</label>
+                    <input type="file" class="form-control" name="photo" accept="image/*">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Add Person</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+{% endblock %}
