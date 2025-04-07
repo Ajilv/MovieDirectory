@@ -210,114 +210,114 @@
 
         <div class="offcanvas-body justify-content-between">
           <div class="main-logo">
-            <a href="index.html">
-              <img src="{% static 'Webassets/images/logo1.png' %}" width="100px" height="100px" alt="logo" class="img-fluid">
+            <a href="{% url 'Home_Page' %}">
+              <img src="{% static 'Webassets/images/logo1.png' %}" width="150px" height="150px" alt="logo" class="img-fluid">
             </a>
           </div>
 
           <ul class="navbar-nav menu-list list-unstyled align-items-lg-center d-flex gap-md-3 mb-0">
             <li class="nav-item">
-              <a href="index.html" class="nav-link mx-2 ">Home</a>
+              <a href="{% url 'Home_Page' %}" class="nav-link mx-2 ">Home</a>
             </li>
 
-<!--            <li class="nav-item dropdown">-->
-<!--              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="pages"-->
-<!--                data-bs-toggle="dropdown" aria-expanded="false">Pages</a>-->
-<!--              <ul class="dropdown-menu" aria-labelledby="pages">-->
-<!--                <li><a href="about.html" class="dropdown-item">About Us<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="instructors.html" class="dropdown-item">Instructors<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="cart.html" class="dropdown-item">Cart<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="wishlist.html" class="dropdown-item">Wishlist<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="checkout.html" class="dropdown-item">Checkout<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="price-plan.html" class="dropdown-item">Price Plan<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="contact.html" class="dropdown-item">Contact<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="faqs.html" class="dropdown-item">FAQs<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="account.html" class="dropdown-item">Account<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="thank-you.html" class="dropdown-item">Thankyou<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="error.html" class="dropdown-item">Error 404<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="styles.html" class="dropdown-item">Styles<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--              </ul>-->
-<!--            </li>-->
-
+          {% if request.session.Username %}
             <li class="nav-item dropdown">
               <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="courses"
                 data-bs-toggle="dropdown" aria-expanded="false">Wishlist / Favorites ❤️</a>
               <ul class="dropdown-menu" aria-labelledby="courses">
-                <li><a href="courses.html" class="dropdown-item">Course<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
-                <li><a href="courses-details.html" class="dropdown-item">Courses Detail<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
+                <li><a href="{% url 'view_wishlist' %}" class="dropdown-item">Show Wishlist</a></li>
+
               </ul>
             </li>
+            {% else %}
+            <li class="nav-item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">Wishlist / Favorites ❤️</a>
+              <ul class="dropdown-menu" aria-labelledby="courses">
+
+                <li><a href="{% url 'User_Sign_In' %}" class="dropdown-item"><span
+                      class="badge bg-secondary text-white ms-2">LogIn first</span></a></li>
+              </ul>
+            </li>
+            {% endif %}
 
             <li class="nav-item dropdown">
               <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="events"
                 data-bs-toggle="dropdown" aria-expanded="false">Genres 🎭</a>
               <ul class="dropdown-menu" aria-labelledby="courses">
-                <li><a href="event.html" class="dropdown-item">event<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
-                <li><a href="event-details.html" class="dropdown-item">event details<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
+
+                {% for i in data1 %}
+                <li><a href="{% url 'filtered_genre' i.id %}" class="dropdown-item">{{i.name}}<span
+                      class="badge bg-secondary text-white ms-2">{{i.id}}</span></a></li>
+
+
+                {% endfor %}
+                <li><a href="{% url 'Genre' %}" class="dropdown-item">Genres<span
+                      class="badge bg-secondary text-white ms-2">Show All</span></a></li>
               </ul>
             </li>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link mx-2  align-items-center active" role="button" id="blog"
-                data-bs-toggle="dropdown" aria-expanded="false">Our Blog</a>
+     <li class="nav-item dropdown">
+            <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="castDropdown"
+               data-bs-toggle="dropdown" aria-expanded="false">Browse Cast 🎭</a>
+            <ul class="dropdown-menu" aria-labelledby="castDropdown">
+                <li><a href="{% url 'CastList' %}?category=popular" class="dropdown-item">Popular Actors</a></li>
+                <li><a href="{% url 'CastList' %}?category=trending" class="dropdown-item">Trending Celebrities</a></li>
+                <li><a href="{% url 'CastList' %}" class="dropdown-item">All Cast</a></li>
+            </ul>
+        </li>
 
+
+
+     <li class="nav-item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle align-items-center active" role="button" id="shop"
+                data-bs-toggle="dropdown" aria-expanded="false">Browse Movies 🎬 </a>
+              <ul class="dropdown-menu" aria-labelledby="shop">
+                <li><a href="{% url 'Movie' %}?category=upcoming" class="dropdown-item">Upcoming Movies</a></li>
+                <li><a href="{% url 'Movie' %}?category=now_playing" class="dropdown-item">In Theatre</a></li>
+                <li><a href="{% url 'Movie' %}?category=popular" class="dropdown-item">Movie<span
+                      class="badge bg-secondary text-white ms-2">All</span></a></li>
+              </ul>
             </li>
 
-            <li class="nav-item dropdown">
-              <form action="{% url 'Movie' %}" method="get">
-                <select class="nav-link mx-2 dropdown-toggle align-items-center" name="category" onchange="this.form.submit()" >
-              <option >Browse Movies 🎬 </option>
-
-
-                      <option value="popular"  >Popular</option>
-                      <option value="now_playing">Now Playing</option>
-                      <option value="top_rated">Top Rated </option>
-                      <option value="upcoming">Upcoming</option>
-
-
-
-                    </select>
-                  </form>
-
-
-
-            </li>
 
             <li class="nav-item">
-              <a href="contact.html" class="nav-link mx-2">Top Rated / Trending 🌟</a>
+              <a href="{% url 'trending_movies' %}" class="nav-link mx-2">Top Rated / Trending 🌟</a>
             </li>
+
+
             <li class="nav-item">
-              <a href="#"
-                class="nav-link mx-2 text-decoration-underline" target="_blank">Register</a>
+              {% if request.session.Username %}
+
+              <a href="{% url 'User_logout' %}"
+                class="nav-link mx-2 text-decoration-underline" >Logout {{ request.session.Username }}</a>
+
+              {% else %}
+              <a href="{% url 'User_Sign_Up' %}"
+                class="nav-link mx-2 text-decoration-underline" >Register</a>
+
+              {% endif %}
             </li>
+
           </ul>
 
           <div class="d-none d-lg-flex align-items-center">
             <ul class="d-flex  align-items-center list-unstyled m-0">
               <li>
-                <a href="account.html" class="ms-3">
+                {% if request.session.Username %}
+                    <a href="{% url 'Home_Page' %}" class="ms-3"> Welcome<svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
+                    <use href="#user-circle" />
+                  </svg>
+                    </a>
+                {% else %}
+                  <a href="{% url 'User_Sign_In' %}" class="ms-3">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
                     <use href="#user-circle" />
                   </svg> </a>
+                {% endif %}
               </li>
               <li>
-                <a href="wishlist.html" class="ms-3">
+                <a href="{% url 'view_wishlist' %}" class="ms-3">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
                     <use href="#heart" />
                   </svg> </a>
@@ -328,7 +328,7 @@
                 <a href="#" class="ms-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
                   aria-controls="offcanvasCart">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-                    <use href="#shopping-bag" />
+                    <use style="color:green" href="#user-circle" />
                   </svg> </a>
                 </a>
               </li>
@@ -460,36 +460,6 @@
             <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
                 <div class="image-holder zoom-effect rounded-3">
                     <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="img-fluid rounded-3" alt="{{ movie.title }}">
-                    <ul class="social-links list-unstyled position-absolute">
-                        <li>
-                            <a href="#">
-                                <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#facebook" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#twitter" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#instagram" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#linkedin" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
                 <div class="card-body p-0">
                     <div class="text-center mt-3">

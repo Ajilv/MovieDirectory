@@ -164,9 +164,9 @@
           Search Movies
         </h4>
         <div class="search-bar border rounded-2 border-dark-subtle">
-          <form id="search-form" class="text-center d-flex align-items-center" action="" method="get">
-            <input type="text" class="form-control border-0 bg-transparent" placeholder="Search Here" />
-            <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
+          <form id="search-form" class="text-center d-flex align-items-center" action="{% url 'Movie' %}" method="get">
+            <input name="query" type="text" class="form-control border-0 bg-transparent" placeholder="Search Here" />
+            <iconify-icon  icon="tabler:search" class="fs-4 me-3"></iconify-icon>
           </form>
         </div>
       </div>
@@ -202,46 +202,16 @@
 
         <div class="offcanvas-body justify-content-between">
           <div class="main-logo">
-            <a href="index.html">
-              <img src="{% static 'Webassets/images/logo1.png' %}" width="100px" height="100px" alt="logo" class="img-fluid">
+            <a href="{% url 'Home_Page' %}">
+              <img src="{% static 'Webassets/images/logo1.png' %}" width="150px" height="150px" alt="logo" class="img-fluid">
             </a>
           </div>
 
           <ul class="navbar-nav menu-list list-unstyled align-items-lg-center d-flex gap-md-3 mb-0">
             <li class="nav-item">
-              <a href="index.html" class="nav-link mx-2 active">Home</a>
+              <a href="{% url 'Home_Page' %}" class="nav-link mx-2 active">Home</a>
             </li>
 
-<!--            <li class="nav-item dropdown">-->
-<!--              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="pages"-->
-<!--                data-bs-toggle="dropdown" aria-expanded="false">Pages</a>-->
-<!--              <ul class="dropdown-menu" aria-labelledby="pages">-->
-<!--                <li><a href="about.html" class="dropdown-item">About Us<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="instructors.html" class="dropdown-item">Instructors<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="cart.html" class="dropdown-item">Cart<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="wishlist.html" class="dropdown-item">Wishlist<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="checkout.html" class="dropdown-item">Checkout<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="price-plan.html" class="dropdown-item">Price Plan<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="contact.html" class="dropdown-item">Contact<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="faqs.html" class="dropdown-item">FAQs<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="account.html" class="dropdown-item">Account<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="thank-you.html" class="dropdown-item">Thankyou<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="error.html" class="dropdown-item">Error 404<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="styles.html" class="dropdown-item">Styles<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--              </ul>-->
-<!--            </li>-->
           {% if request.session.Username %}
             <li class="nav-item dropdown">
               <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="courses"
@@ -253,7 +223,7 @@
             </li>
             {% else %}
             <li class="nav-item dropdown">
-              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="courses"
+              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">Wishlist / Favorites ❤️</a>
               <ul class="dropdown-menu" aria-labelledby="courses">
 
@@ -269,7 +239,7 @@
               <ul class="dropdown-menu" aria-labelledby="courses">
 
                 {% for i in data %}
-                <li><a href="event-details.html" class="dropdown-item">{{i.name}}<span
+                <li><a href="{% url 'filtered_genre' i.id %}" class="dropdown-item">{{i.name}}<span
                       class="badge bg-secondary text-white ms-2">{{i.id}}</span></a></li>
 
 
@@ -295,10 +265,8 @@
               <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="shop"
                 data-bs-toggle="dropdown" aria-expanded="false">Browse Movies 🎬 </a>
               <ul class="dropdown-menu" aria-labelledby="shop">
-                <li><a href="{% url 'Movie' %}?category=upcoming" class="dropdown-item">Upcoming Movies<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
-                <li><a href="{% url 'Movie' %}?category=now_playing" class="dropdown-item">In Theatre<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
+                <li><a href="{% url 'Movie' %}?category=upcoming" class="dropdown-item">Upcoming Movies</a></li>
+                <li><a href="{% url 'Movie' %}?category=now_playing" class="dropdown-item">In Theatre</a></li>
                 <li><a href="{% url 'Movie' %}?category=popular" class="dropdown-item">Movie<span
                       class="badge bg-secondary text-white ms-2">All</span></a></li>
               </ul>
@@ -341,7 +309,7 @@
                 {% endif %}
               </li>
               <li>
-                <a href="wishlist.html" class="ms-3">
+                <a href="{% url 'view_wishlist' %}" class="ms-3">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
                     <use href="#heart" />
                   </svg> </a>
@@ -420,7 +388,7 @@
           <h2 class="display-1 text-uppercase">Search Your Fav Movies </h2>
           <p class="fs-4 my-4 pb-2">What are you waiting for .....</p>
           <div>
-            <form id="form" class="d-flex align-items-center position-relative " method="get" action="{% url 'Movie' %}">
+            <form id="form1" class="d-flex align-items-center position-relative " method="get" action="{% url 'Movie' %}">
               <input type="text" name="query" placeholder="Search a movie"
                 class="form-control bg-white border-0 rounded-4 shadow-none px-4 py-3 w-100">
               <button class="btn btn-primary rounded-4 px-3 py-2 position-absolute align-items-center m-1 end-0"><svg
@@ -512,7 +480,6 @@
             </svg>
             <p class="ps-4">Stay updated with trending movies and personalized recommendations.</p>
           </div>
-          <a href="about.html" class="btn btn-primary px-5 py-3 mt-4">Learn more</a>
         </div>
       </div>
     </div>
@@ -527,848 +494,32 @@
           <h2 class="display-6 fw-semibold">Popular Genre</h2>
         </div>
         <div class="mt-4 mt-md-0">
-          <a href="#" class="btn btn-primary px-5 py-3">View all genre</a>
+          <a href="{% url 'Genre' %}" class="btn btn-primary px-5 py-3">View all genre</a>
         </div>
       </div>
-      <div class="row g-md-3 mt-2">
-        <div class="col-md-4">
-          <div class="primary rounded-3 p-4 my-3">
+
+        <div class="col-md-4 d-flex" >
+          {% for i in data %}
+          <div class="gray rounded-3 p-4 my-3" style="margin-left:20px; width:200px">
             <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#pencil-box" class="svg-primary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Graphic Design</p>
-                <p class="category-paragraph m-0">39 courses</p>
-              </div>
-            </div>
-          </div>
-          <div class="tertiary rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#speakerphone" class="svg-tertiary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">SEO & Marketing</p>
-                <p class="category-paragraph m-0">24 courses</p>
-              </div>
-            </div>
-          </div>
-          <div class="secondary rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#handshake" class="svg-secondary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Business & Finance</p>
-                <p class="category-paragraph m-0">16 courses</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="gray rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="160px" height="60px">
                 <use href="#camera" class="svg-gray" />
               </svg>
               <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Video & Photography</p>
-                <p class="category-paragraph m-0">39 courses</p>
+                <a href="{% url 'filtered_genre' i.id %}" class="category-paragraph fw-bold text-uppercase mb-1">{{i.name}}</a>
               </div>
             </div>
           </div>
-          <div class="secondary rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#laptop" class="svg-secondary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Computer Science</p>
-                <p class="category-paragraph m-0">16 courses</p>
-              </div>
-            </div>
-          </div>
-          <div class="tertiary rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#fitness" class="svg-tertiary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Health & Fitness</p>
-                <p class="category-paragraph m-0">24 courses</p>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
 
         </div>
-        <div class="col-md-4">
-          <div class="tertiary rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#speakerphone" class="svg-tertiary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">SEO & Marketing</p>
-                <p class="category-paragraph m-0">24 courses</p>
-              </div>
-            </div>
-          </div>
-          <div class="primary rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#pencil-box" class="svg-primary" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Graphic Design</p>
-                <p class="category-paragraph m-0">39 courses</p>
-              </div>
-            </div>
-          </div>
-          <div class="gray rounded-3 p-4 my-3">
-            <div class="d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px">
-                <use href="#pencil-box" class="svg-gray" />
-              </svg>
-              <div class="ps-4">
-                <p class="category-paragraph fw-bold text-uppercase mb-1">Graphic Design</p>
-                <p class="category-paragraph m-0">39 courses</p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
 
       </div>
     </div>
   </section>
 
-<!--  <section id="courses" class="padding-medium">-->
-<!--    <div class="container">-->
-<!--      <div class="text-center mb-5">-->
-<!--        <p class="text-secondary">Some of our most popular online courses</p>-->
-<!--        <h2 class="display-6 fw-semibold">Explore Inspiring Online Courses</h2>-->
-<!--      </div>-->
-
-<!--      <div class="row">-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">New</span>-->
-<!--          </div>-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item1.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">Mastering the Art of Digital Communication</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">New</span>-->
-<!--          </div>-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item2.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">Web Wizardry 101: Mastering the Internet</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          &lt;!&ndash; <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">New</span>-->
-<!--          </div> &ndash;&gt;-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item3.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">E-Learning Essentials: A Comprehensive Guide</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">Sale</span>-->
-<!--          </div>-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item4.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">CyberClass 101: A Guide to Online Education</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          &lt;!&ndash; <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">New</span>-->
-<!--          </div> &ndash;&gt;-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item5.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">Mastering the Art of Digital Communication</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">New</span>-->
-<!--          </div>-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item6.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">Web Wizardry 101: Mastering the Internet</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          &lt;!&ndash; <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">New</span>-->
-<!--          </div> &ndash;&gt;-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item7.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">E-Learning Essentials: A Comprehensive Guide</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5">-->
-<!--          <div class="z-1 position-absolute m-4">-->
-<!--            <span class="badge text-white bg-secondary">Sale</span>-->
-<!--          </div>-->
-<!--          <div class="card rounded-4 border-0 shadow-sm p-3 position-relative">-->
-<!--            <a href="courses-details.html"><img src="{% static 'Webassets/images/item8.jpg' %}" class="img-fluid rounded-3" alt="image"></a>-->
-<!--            <div class="card-body p-0">-->
-
-<!--              <div class="d-flex justify-content-between my-3">-->
-<!--                <p class="text-black-50 fw-bold text-uppercase m-0">Digital Marketing</p>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <svg width="20" height="20">-->
-<!--                    <use xlink:href="#clock" class="text-black-50"></use>-->
-<!--                  </svg>-->
-<!--                  <p class="text-black-50 fw-bold text-uppercase m-0">1h 50m</p>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <a href="courses-details.html">-->
-<!--                <h5 class="course-title py-2 m-0">CyberClass 101: A Guide to Online Education</h5>-->
-<!--              </a>-->
-
-<!--              <div class="card-text">-->
-<!--                <span class="rating d-flex align-items-center mt-3">-->
-<!--                  <p class="text-muted fw-semibold m-0 me-2">By: James Willam</p>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                  <iconify-icon icon="clarity:star-solid" class="text-primary"></iconify-icon>-->
-<!--                </span>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      <div class="text-center mt-4">-->
-<!--        <a href="courses.html" class="btn btn-primary px-5 py-3">View all courses</a>-->
-<!--      </div>-->
-
-<!--    </div>-->
-<!--  </section>-->
-
-  <section id="testimonial" class="padding-medium bg-primary-subtle">
-    <div class="container">
-      <div class="text-center mb-4">
-        <p class="text-secondary ">What our students say about us</p>
-        <h2 class="display-6 fw-semibold">Reviews</h2>
-      </div>
-      <div class="row">
-        <div class="offset-md-1 col-md-10">
-          <div class="swiper testimonial-swiper">
-            <div class="swiper-wrapper">
-
-              <div class="swiper-slide pe-md-5">
-                <div class="my-4">
-                  <p class="text-muted">“Condimentum vel viverra morbi quisque lobortis eu leo. A nulla pulvinar at
-                    ut in sit libero, sed. Quis congue pretium in enim gravida quam netus in lorem. Nulla at nibh lorem
-                    nunc sapien egestas at cursus. ”</p>
-                  <div class="row">
-                    <div class="col-3"> <img src="{% static 'Webassets/images/reviwer1.jpg' %}" alt="img" class="img-fluid rounded-circle">
-                    </div>
-                    <div class="col-9">
-                      <h5 class="m-0 mt-2">Recco Gracia</h5>
-                      <p class="text-muted">Web Developer</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide pe-md-5">
-                <div class="my-4">
-                  <p class="text-muted">“Condimentum vel viverra morbi quisque lobortis eu leo. A nulla pulvinar at
-                    ut in sit libero, sed. Quis congue pretium in enim gravida quam netus in lorem. Nulla at nibh lorem
-                    nunc sapien egestas at cursus. ”</p>
-                  <div class="row">
-                    <div class="col-3"> <img src="{% static 'Webassets/images/reviwer2.jpg' %}" alt="img" class="img-fluid rounded-circle">
-                    </div>
-                    <div class="col-9">
-                      <h5 class="m-0 mt-2">Bicky Yeal</h5>
-                      <p class="text-muted">Web Developer</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide pe-md-5">
-                <div class="my-4">
-                  <p class="text-muted">“Condimentum vel viverra morbi quisque lobortis eu leo. A nulla pulvinar at
-                    ut in sit libero, sed. Quis congue pretium in enim gravida quam netus in lorem. Nulla at nibh lorem
-                    nunc sapien egestas at cursus. ”</p>
-                  <div class="row">
-                    <div class="col-3"> <img src="{% static 'Webassets/images/reviwer3.jpg' %}" alt="img" class="img-fluid rounded-circle">
-                    </div>
-                    <div class="col-9">
-                      <h5 class="m-0 mt-2">Lilly Will</h5>
-                      <p class="text-muted">Web Developer</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide pe-md-5">
-                <div class="my-4">
-                  <p class="text-muted">“Condimentum vel viverra morbi quisque lobortis eu leo. A nulla pulvinar at
-                    ut in sit libero, sed. Quis congue pretium in enim gravida quam netus in lorem. Nulla at nibh lorem
-                    nunc sapien egestas at cursus. ”</p>
-                  <div class="row">
-                    <div class="col-3"> <img src="{% static 'Webassets/images/reviwer1.jpg' %}" alt="img" class="img-fluid rounded-circle">
-                    </div>
-                    <div class="col-9">
-                      <h5 class="m-0 mt-2">Recco Gracia</h5>
-                      <p class="text-muted">Web Developer</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide pe-md-5">
-                <div class="my-4">
-                  <p class="text-muted">“Condimentum vel viverra morbi quisque lobortis eu leo. A nulla pulvinar at
-                    ut in sit libero, sed. Quis congue pretium in enim gravida quam netus in lorem. Nulla at nibh lorem
-                    nunc sapien egestas at cursus. ”</p>
-                  <div class="row">
-                    <div class="col-3"> <img src="{% static 'Webassets/images/reviwer2.jpg' %}" alt="img" class="img-fluid rounded-circle">
-                    </div>
-                    <div class="col-9">
-                      <h5 class="m-0 mt-2">Recco Gracia</h5>
-                      <p class="text-muted">Web Developer</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="swiper-pagination"></div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-  </section>
-
-  <section id="teacher" class="padding-medium">
-    <div class="container">
-      <div class="text-center mb-5">
-        <p class="text-secondary">Meet our popular teachers</p>
-        <h2 class="display-6 fw-semibold">Our Teachers</h2>
-      </div>
-
-      <div class="row">
-        <div class="col mb-5">
-          <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
-            <div class="image-holder zoom-effect rounded-3">
-              <img src="{% static 'Webassets/images/teacher1.jpg' %}" class="img-fluid rounded-3" alt="image">
-              <ul class="social-links list-unstyled position-absolute">
-                <li>
-                  <a href="#">
-                    <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#facebook" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#twitter" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#instagram" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#linkedin" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="card-body p-0">
-              <div class="text-center mt-3">
-                <p class="fw-bold m-0">Anila Lee</p>
-                <p class="text-secondary m-0">Art Director</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col mb-5">
-          <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
-            <div class="image-holder zoom-effect rounded-3">
-              <img src="{% static 'Webassets/images/teacher2.jpg' %}" class="img-fluid rounded-3" alt="image">
-              <ul class="social-links list-unstyled position-absolute">
-                <li>
-                  <a href="#">
-                    <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#facebook" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#twitter" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#instagram" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#linkedin" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="card-body p-0">
-              <div class="text-center mt-3">
-                <p class="fw-bold m-0">Bruce Smith</p>
-                <p class="text-secondary m-0">Marketing Expert</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col mb-5">
-          <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
-            <div class="image-holder zoom-effect rounded-3">
-              <img src="{% static 'Webassets/images/teacher3.jpg' %}" class="img-fluid rounded-3" alt="image">
-              <ul class="social-links list-unstyled position-absolute">
-                <li>
-                  <a href="#">
-                    <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#facebook" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#twitter" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#instagram" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#linkedin" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="card-body p-0">
-
-              <div class="text-center mt-3">
-                <p class="fw-bold m-0">Jack Nicholson</p>
-                <p class="text-secondary m-0">SEO Expert</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col mb-5">
-          <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
-            <div class="image-holder zoom-effect rounded-3">
-              <img src="{% static 'Webassets/images/teacher4.jpg' %}" class="img-fluid rounded-3" alt="image">
-              <ul class="social-links list-unstyled position-absolute">
-                <li>
-                  <a href="#">
-                    <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#facebook" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#twitter" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#instagram" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#linkedin" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="card-body p-0">
-
-              <div class="text-center mt-3">
-                <p class="fw-bold m-0">Calvin Ian</p>
-                <p class="text-secondary m-0">Sales Director</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col mb-5">
-          <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
-            <div class="image-holder zoom-effect rounded-3">
-              <img src="{% static 'Webassets/images/teacher5.jpg' %}" class="img-fluid rounded-3" alt="image">
-              <ul class="social-links list-unstyled position-absolute">
-                <li>
-                  <a href="#">
-                    <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#facebook" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#twitter" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#instagram" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                      <use xlink:href="#linkedin" class="text-white"></use>
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="card-body p-0">
-
-              <div class="text-center mt-3">
-                <p class="fw-bold m-0">Milye Sam</p>
-                <p class="text-secondary m-0">Marketing Expert</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <section id="points" class="padding-medium pt-0">
-    <div class="container">
-      <div class="text-center">
-        <p class="text-secondary ">What features we provide</p>
-        <h2 class="display-6 fw-semibold">Core Features</h2>
-      </div>
-      <div class="row align-items-center mt-5">
-        <div class="col-md-6 pe-md-5">
-
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Engage with a worldwide community of inquisitive and imaginative individuals.</p>
-          </div>
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Engage with a worldwide community of inquisitive and imaginative individuals.</p>
-          </div>
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Learn a skill of your choice from the experts around the world from various industries</p>
-          </div>
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Learn a skill of your choice from the experts around the world from various industries</p>
-          </div>
-
-        </div>
-        <div class="col-md-6 pe-md-5">
-
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Engage with a worldwide community of inquisitive and imaginative individuals.</p>
-          </div>
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Engage with a worldwide community of inquisitive and imaginative individuals.</p>
-          </div>
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Learn a skill of your choice from the experts around the world from various industries</p>
-          </div>
-          <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-              <use href="#tick-circle" class="text-secondary" />
-            </svg>
-            <p class="ps-4">Learn a skill of your choice from the experts around the world from various industries</p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="register">
-    <div class="container padding-medium">
-      <div class="row align-items-center">
-        <div class="offset-md-1 col-md-5 ">
-          <div>
-            <h2 class="display-6 fw-semibold">Subscribe and get 20% OFF on your first online course </h2>
-            <p class="text-secondary ">Sign Up for our newsletter and never miss any offers</p>
-          </div>
-        </div>
-        <div class="col-md-5">
-          <form id="form">
-            <input type="email" name="email" placeholder="Write Your Email Address*"
-              class="form-control bg-white border-0 rounded-4 shadow-none rounded-pill text-center px-4 py-3 w-100 mb-4">
-            <div class="d-grid">
-              <button class="btn btn-primary px-5 py-3"> Get Started now</button>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <footer id="footer">
     <div class="container padding-medium ">

@@ -210,114 +210,114 @@
 
         <div class="offcanvas-body justify-content-between">
           <div class="main-logo">
-            <a href="index.html">
-              <img src="{% static 'Webassets/images/logo1.png' %}" width="100px" height="100px" alt="logo" class="img-fluid">
+            <a href="{% url 'Home_Page' %}">
+              <img src="{% static 'Webassets/images/logo1.png' %}" width="150px" height="150px" alt="logo" class="img-fluid">
             </a>
           </div>
 
           <ul class="navbar-nav menu-list list-unstyled align-items-lg-center d-flex gap-md-3 mb-0">
             <li class="nav-item">
-              <a href="index.html" class="nav-link mx-2 ">Home</a>
+              <a href="{% url 'Home_Page' %}" class="nav-link mx-2 ">Home</a>
             </li>
 
-<!--            <li class="nav-item dropdown">-->
-<!--              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="pages"-->
-<!--                data-bs-toggle="dropdown" aria-expanded="false">Pages</a>-->
-<!--              <ul class="dropdown-menu" aria-labelledby="pages">-->
-<!--                <li><a href="about.html" class="dropdown-item">About Us<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="instructors.html" class="dropdown-item">Instructors<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="cart.html" class="dropdown-item">Cart<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="wishlist.html" class="dropdown-item">Wishlist<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="checkout.html" class="dropdown-item">Checkout<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="price-plan.html" class="dropdown-item">Price Plan<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="contact.html" class="dropdown-item">Contact<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="faqs.html" class="dropdown-item">FAQs<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="account.html" class="dropdown-item">Account<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="thank-you.html" class="dropdown-item">Thankyou<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="error.html" class="dropdown-item">Error 404<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--                <li><a href="styles.html" class="dropdown-item">Styles<span-->
-<!--                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>-->
-<!--              </ul>-->
-<!--            </li>-->
-
+          {% if request.session.Username %}
             <li class="nav-item dropdown">
-              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="courses"
+              <a class="nav-link mx-2 dropdown-toggle align-items-center active" role="button" id="courses"
                 data-bs-toggle="dropdown" aria-expanded="false">Wishlist / Favorites ❤️</a>
               <ul class="dropdown-menu" aria-labelledby="courses">
-                <li><a href="courses.html" class="dropdown-item">Course<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
-                <li><a href="courses-details.html" class="dropdown-item">Courses Detail<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
+                <li><a href="{% url 'view_wishlist' %}" class="dropdown-item">Show Wishlist</a></li>
+
               </ul>
             </li>
+            {% else %}
+            <li class="nav-item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">Wishlist / Favorites ❤️</a>
+              <ul class="dropdown-menu" aria-labelledby="courses">
+
+                <li><a href="{% url 'User_Sign_In' %}" class="dropdown-item"><span
+                      class="badge bg-secondary text-white ms-2">LogIn first</span></a></li>
+              </ul>
+            </li>
+            {% endif %}
 
             <li class="nav-item dropdown">
               <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="events"
                 data-bs-toggle="dropdown" aria-expanded="false">Genres 🎭</a>
               <ul class="dropdown-menu" aria-labelledby="courses">
-                <li><a href="event.html" class="dropdown-item">event<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
-                <li><a href="event-details.html" class="dropdown-item">event details<span
-                      class="badge bg-secondary text-white ms-2">PRO</span></a></li>
+
+                {% for i in data %}
+                <li><a href="{% url 'filtered_genre' i.id %}" class="dropdown-item">{{i.name}}<span
+                      class="badge bg-secondary text-white ms-2">{{i.id}}</span></a></li>
+
+
+                {% endfor %}
+                <li><a href="{% url 'Genre' %}" class="dropdown-item">Genres<span
+                      class="badge bg-secondary text-white ms-2">Show All</span></a></li>
               </ul>
             </li>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link mx-2  align-items-center active" role="button" id="blog"
-                data-bs-toggle="dropdown" aria-expanded="false">Our Blog</a>
+     <li class="nav-item dropdown">
+            <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="castDropdown"
+               data-bs-toggle="dropdown" aria-expanded="false">Browse Cast 🎭</a>
+            <ul class="dropdown-menu" aria-labelledby="castDropdown">
+                <li><a href="{% url 'CastList' %}?category=popular" class="dropdown-item">Popular Actors</a></li>
+                <li><a href="{% url 'CastList' %}?category=trending" class="dropdown-item">Trending Celebrities</a></li>
+                <li><a href="{% url 'CastList' %}" class="dropdown-item">All Cast</a></li>
+            </ul>
+        </li>
 
+
+
+     <li class="nav-item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="shop"
+                data-bs-toggle="dropdown" aria-expanded="false">Browse Movies 🎬 </a>
+              <ul class="dropdown-menu" aria-labelledby="shop">
+                <li><a href="{% url 'Movie' %}?category=upcoming" class="dropdown-item">Upcoming Movies</a></li>
+                <li><a href="{% url 'Movie' %}?category=now_playing" class="dropdown-item">In Theatre</a></li>
+                <li><a href="{% url 'Movie' %}?category=popular" class="dropdown-item">Movie<span
+                      class="badge bg-secondary text-white ms-2">All</span></a></li>
+              </ul>
             </li>
 
-            <li class="nav-item dropdown">
-              <form action="{% url 'Movie' %}" method="get">
-                <select class="nav-link mx-2 dropdown-toggle align-items-center" name="category" onchange="this.form.submit()" >
-              <option >Browse Movies 🎬 </option>
-
-
-                      <option value="popular"  >Popular</option>
-                      <option value="now_playing">Now Playing</option>
-                      <option value="top_rated">Top Rated </option>
-                      <option value="upcoming">Upcoming</option>
-
-
-
-                    </select>
-                  </form>
-
-
-
-            </li>
 
             <li class="nav-item">
-              <a href="contact.html" class="nav-link mx-2">Top Rated / Trending 🌟</a>
+              <a href="{% url 'trending_movies' %}" class="nav-link mx-2">Top Rated / Trending 🌟</a>
             </li>
+
+
             <li class="nav-item">
-              <a href="#"
-                class="nav-link mx-2 text-decoration-underline" target="_blank">Register</a>
+              {% if request.session.Username %}
+
+              <a href="{% url 'User_logout' %}"
+                class="nav-link mx-2 text-decoration-underline" >Logout {{ request.session.Username }}</a>
+
+              {% else %}
+              <a href="{% url 'User_Sign_Up' %}"
+                class="nav-link mx-2 text-decoration-underline" >Register</a>
+
+              {% endif %}
             </li>
+
           </ul>
 
           <div class="d-none d-lg-flex align-items-center">
             <ul class="d-flex  align-items-center list-unstyled m-0">
               <li>
-                <a href="account.html" class="ms-3">
+                {% if request.session.Username %}
+                    <a href="{% url 'Home_Page' %}" class="ms-3"> Welcome<svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
+                    <use href="#user-circle" />
+                  </svg>
+                    </a>
+                {% else %}
+                  <a href="{% url 'User_Sign_In' %}" class="ms-3">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
                     <use href="#user-circle" />
                   </svg> </a>
+                {% endif %}
               </li>
               <li>
-                <a href="wishlist.html" class="ms-3">
+                <a href="{% url 'view_wishlist' %}" class="ms-3">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
                     <use href="#heart" />
                   </svg> </a>
@@ -328,7 +328,7 @@
                 <a href="#" class="ms-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
                   aria-controls="offcanvasCart">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-                    <use href="#shopping-bag" />
+                    <use style="color:green" href="#user-circle" />
                   </svg> </a>
                 </a>
               </li>
@@ -391,94 +391,76 @@
 
 
 
+<div class="container py-4">
+    <!-- Heading -->
+   <div>
+  <section id="wishlist" class="padding-medium">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="text-secondary">View your saved favorites and manage them easily</p>
+        <h2 class="display-6 fw-semibold">Browse Your Wishlist</h2>
+      </div>
+
+      <!-- Filter Dropdown -->
+      <div class="d-flex justify-content-center mb-4">
+        <form method="get" action="{% url 'view_wishlist' %}">
+          <select name="rating" onchange="this.form.submit()"
+            style="background-color: black; color: white; border: 2px solid orange; padding: 10px; font-size: 16px; border-radius: 5px; cursor: pointer; outline: none;">
+            <option value="">Filter by Rating</option>
+            <option value="5" {% if rating_filter == '5' %}selected{% endif %}>5</option>
+            <option value="4" {% if rating_filter == '4' %}selected{% endif %}>4+</option>
+            <option value="3" {% if rating_filter == '3' %}selected{% endif %}>3+</option>
+            <option value="2" {% if rating_filter == '2' %}selected{% endif %}>2+</option>
+            <option value="1" {% if rating_filter == '1' %}selected{% endif %}>1+</option>
+          </select>
+        </form>
+      </div>
+
+    </div>
+  </section>
+</div>
 
 
+    <!-- Wishlist Display -->
+    <div class="d-flex flex-column align-items-center gap-4">
+        {% for movie in wishlist %}
+        <div class="card border-0 shadow-sm rounded-4 p-3 w-100" style="max-width: 90%; background-color: white; min-height: 180px;">
+            <div class="d-flex align-items-start gap-3">
 
+                <!-- Image -->
+                <div class="image-holder rounded-3" style="min-width: 120px; max-width: 120px;">
+                    <img src="{{ movie.M_image }}" class="img-fluid rounded-3" alt="{{ movie.movie_name }}" style="height: 150px; object-fit: contain;">
+                </div>
 
+                <!-- Content -->
+                <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="mb-1">{{ movie.movie_name }}</h5>
+                            <p class="mb-1 text-muted"><strong>Genre:</strong> {{ movie.movie_genre }}</p>
+                            <p class="mb-1 text-muted"><strong>IMDb:</strong> {{ movie.movie_rating }}</p>
+                            <p class="mb-1 text-muted"><strong>Your Rating:</strong> {{ movie.my_rating }}</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary mt-2 mb-0" style="font-size: 0.9rem;">{{ movie.description|truncatechars:180 }}</p>
+                </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div>
-    <section id="movies" class="padding-medium">
-
-
-        <div class="container">
-            <div class="text-center mb-5">
-
-                        <p class="text-secondary">Explore our latest and top-rated movies</p>
-
-              {% if query %}
-                        <h2 class="text-center mt-4">Search Results for: "{{ query }}"</h2>
-                    {% else %}
-               <form action="{% url 'Movie' %}" method="get">
-                  <select name="category" onchange="this.form.submit()"
-                    style="background-color: black; color: white; border: 2px solid orange; padding: 10px; font-size: 16px; border-radius: 5px; cursor: pointer; outline: none;">
-                    <option value="popular">Popular</option>
-                    <option value="now_playing" {% if category == 'now_playing' %} selected {% endif %}>Now Playing</option>
-                    <option value="top_rated" {% if category == 'top_rated' %} selected {% endif %}>Top Rated</option>
-                    <option value="upcoming" {% if category == 'upcoming' %} selected {% endif %}>Upcoming</option>
-                  </select>
-                </form>
-                <h2 class="display-6 fw-semibold">Discover Exciting Movies</h2>
-                    {% endif %}
+                <!-- Remove Button -->
+                <div class="d-flex flex-column justify-content-end">
+                    <a href="" class="btn btn-outline-danger btn-sm">
+                        Remove
+                    </a>
+                </div>
 
             </div>
-                        <div class="d-flex align-items-center justify-content-start mt-3">
-                  <form id="movieSearchForm" class="d-flex align-items-center position-relative" method="get" action="{% url 'Movie' %}">
-                      <input type="text" name="query" placeholder="Search a movie"
-                          class="form-control bg-white border-1 rounded-4 shadow-none px-4 py-2"
-                          style="width: 350px; margin-left: -10px;">
-                      <button class="btn btn-primary rounded-4 px-3 py-2 position-absolute align-items-center m-1 end-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px">
-                              <use href="#search" />
-                          </svg>
-                      </button>
-                  </form>
-              </div>
-
-
-            <!-- Wishlist Grid -->
         </div>
-
-
-            <!-- Wishlist Grid -->
-          <div class="container">
-    <h2>Your Wishlist</h2>
-
-    {% if wishlist %}
-    <ul class="list-group">
-        {% for movie in wishlist %}
-        <li class="list-group-item">
-            <h4>{{ movie.movie_name }}</h4>
-            <p><strong>Genre:</strong> {{ movie.movie_genre }}</p>
-            <p><strong>IMDB Rating:</strong> {{ movie.movie_rating }}</p>
-            <p><strong>Your Rating:</strong> {{ movie.my_rating }}</p>
-            <p><strong>Your Review:</strong> {{ movie.my_review }}</p>
-        </li>
         {% endfor %}
-    </ul>
-    {% else %}
-    <p>No movies in wishlist.</p>
+    </div>
+
+    {% if not wishlist %}
+    <div class="alert alert-info text-center mt-4">No movies found in your wishlist.</div>
     {% endif %}
 </div>
-
-    </section>
-</div>
-
-
-
-
 
 
 

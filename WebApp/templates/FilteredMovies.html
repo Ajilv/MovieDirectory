@@ -242,11 +242,11 @@
             {% endif %}
 
             <li class="nav-item dropdown">
-              <a class="nav-link mx-2 dropdown-toggle align-items-center" role="button" id="events"
+              <a class="nav-link mx-2 dropdown-toggle align-items-center active" role="button" id="events"
                 data-bs-toggle="dropdown" aria-expanded="false">Genres 🎭</a>
               <ul class="dropdown-menu" aria-labelledby="courses">
 
-                {% for i in data1 %}
+                {% for i in data %}
                 <li><a href="{% url 'filtered_genre' i.id %}" class="dropdown-item">{{i.name}}<span
                       class="badge bg-secondary text-white ms-2">{{i.id}}</span></a></li>
 
@@ -282,7 +282,7 @@
 
 
             <li class="nav-item">
-              <a href="{% url 'trending_movies' %}" class="nav-link mx-2 active">Top Rated / Trending 🌟</a>
+              <a href="{% url 'trending_movies' %}" class="nav-link mx-2">Top Rated / Trending 🌟</a>
             </li>
 
 
@@ -408,63 +408,35 @@
 
 
 
+<div class="container mt-4">
+   <div class="text-center mb-5">
+        <!-- Main Heading -->
+        <h2 class="display-6 fw-semibold  fw-bold text-primary">
+            Popular Movies in {{ genre }} Genre
+        </h2>
 
-<div>
+        <!-- Genre Description -->
+        <p class="lead text-muted mt-3 mx-auto text-secondary" style="max-width: 700px;">
+            {{ genre_desc }}
+        </p>
 
-
-        <div class="container">
-            <div class="text-center mb-5">
-                <p class="text-secondary">Explore our latest and top-rated movies</p>
-                <h2 class="display-6 fw-semibold">Discover Top Rated Movies</h2>
-            </div>
-
-            <!-- Movies Grid -->
+        <!-- Decorative Divider -->
+        <div class="d-flex justify-content-center mt-3">
+            <div class="border-top border-3 border-primary w-25"> </div>
         </div>
+    </div>
 
-
-            <!-- Movies Grid -->
-              <div class="container mt-4">
     <div class="row">
         {% for movie in movies %}
         <div class="col-md-3 mb-4">
             <div class="team-member position-relative card rounded-4 border-0 shadow-sm p-3">
                 <div class="image-holder zoom-effect rounded-3">
                     <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="img-fluid rounded-3" alt="{{ movie.title }}">
-                    <ul class="social-links list-unstyled position-absolute">
-                        <li>
-                            <a href="#">
-                                <svg class="facebook text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#facebook" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg class="twitter text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#twitter" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg class="instagram text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#instagram" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg class="linkedin text-dark" width="25" height="25" aria-hidden="true">
-                                    <use xlink:href="#linkedin" class="text-white"></use>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
                 <div class="card-body p-0">
                     <div class="text-center mt-3">
                         <a href="{% url 'Movie_Details' movie.id %}" class="fw-bold m-0">{{ movie.title }}</a>
-                        <p class="text-secondary m-0">Rating: {{ movie.vote_average }}/10</p>
+                        <p class="text-secondary m-0">Rating: {{ movie.vote_average|floatformat:1 }}/10</p>
                         <p class="text-secondary m-0">{{ movie.release_date }}</p>
                     </div>
                 </div>
@@ -472,12 +444,11 @@
         </div>
         {% endfor %}
     </div>
+
+    {% if not movies %}
+    <div class="alert alert-warning text-center">No movies found for this genre.</div>
+    {% endif %}
 </div>
-
-    </section>
-</div>
-
-
 
 
 
@@ -685,6 +656,7 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+
 
 </body>
 

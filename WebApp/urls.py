@@ -3,7 +3,6 @@ from WebApp import views
 
 urlpatterns=[
     path('',views.Home_Page,name="Home_Page"),
-    path('Blog/', views.Blog, name="Blog"),
 
     path('User_Sign_Up/', views.User_Sign_Up, name="User_Sign_Up"),
     path('Save_Sign_Up/', views.Save_Sign_Up, name="Save_Sign_Up"),

@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class GenreDB(models.Model):
     name = models.CharField(max_length=60,null=True,blank=True)
-    Desc = models.TextField(max_length=250, null=True,blank=True)
+    Desc = models.TextField(max_length=350, null=True,blank=True)
 
 
 class Person(models.Model):

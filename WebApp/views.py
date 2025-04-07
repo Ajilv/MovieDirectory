@@ -3,7 +3,6 @@ from WebApp.models import Sign_UpDB,Wishlist
 from django.contrib import messages
 from AdminApp.models import GenreDB,movieDb
 import requests
-from MovieDirectory import settings
 from django.conf import settings
 # Create your views here.
 
@@ -18,8 +17,7 @@ def Home_Page(request):
     return render(request,"Home.html",{'data':data,'api':api})
 
 
-def Blog(request):
-    return render(request,"CastList.html")
+
 
 
 
@@ -29,7 +27,7 @@ def Blog(request):
 
 def Movie(request):
     API_KEY = settings.TMDB_API_KEY
-    data = GenreDB.objects.all()[:3]
+    data1 = GenreDB.objects.all()[:3]
     category=request.GET.get("category","popular")  # second parameter is the default value
     query = request.GET.get("query")  # Get search Form
 
@@ -45,46 +43,12 @@ def Movie(request):
     print(data)
 
 
-    return render(request, "Movies.html", {'movies':data,'category':category,'query':query,'data':data})
+    return render(request, "Movies.html", {'movies':data,'category':category,'query':query,'data':data,'data1':data1})
 
 
 
 
-#
-# def Movie(request):
-#     genre = request.GET.get('genre', '')
-#     year = request.GET.get('year', '')
-#
-#
-#     TMDB_URL = "https://api.themoviedb.org/3/discover/movie"
-#     params = {
-#         "api_key": settings.TMDB_API_KEY,  # Use API key from settings
-#         "language": "en-US",
-#         "sort_by": "popularity.desc",
-#         "include_adult": "false",
-#         "include_video": "false",
-#         "page": 1
-#     }
-#
-#     if genre:
-#         params["with_genres"] = genre
-#     if year:
-#         params["primary_release_year"] = year
-#
-#
-#     response = requests.get(TMDB_URL, params=params)
-#     movies = response.json().get("results", [])
-#
-#
-#     genre_url = "https://api.themoviedb.org/3/genre/movie/list"
-#     genre_response = requests.get(genre_url, params={"api_key": settings.TMDB_API_KEY, "language": "en-US"})
-#     genres = genre_response.json().get("genres", [])
-#
-#     return render(request, "Movies.html", {
-#         "data": movies,
-#         "genres": genres,
-#         "years": range(2024, 2000, -1)
-#     })
+
 
 
 
@@ -142,15 +106,73 @@ def User_logout(request):
 
 
 
-def Genre(request):
-    data= GenreDB.objects.all()
 
-    return render(request,"Genre.html",{'Genre':data})
+
+
+
+
+
+def Genre(request):
+    data= GenreDB.objects.all()[:3]
+    genres = GenreDB.objects.all()
+    return render(request, "Genre.html", {'Genre': genres,'data':data})
+
+
 
 def filtered_genre(request, genre_id):
-    genre = get_object_or_404(GenreDB, id=genre_id)
-    movies = movieDb.objects.filter(Genre=genre)
-    return render(request, "FilteredGenre.html", {'genre': genre, 'movies': movies,})
+    data = GenreDB.objects.all()[:3]
+
+    genre_obj = GenreDB.objects.filter(id=genre_id).first()
+    if not genre_obj:
+        return render(request, "FilteredMovies.html", {
+            "genre": "Unknown",
+            "movies": [],
+            "error": "Genre not found.",
+             'data':data
+
+        })
+
+    genre_name = genre_obj.name  # getting the name with the id
+    genre_desc = genre_obj.Desc
+    API_KEY = settings.TMDB_API_KEY
+
+    # Step 1: Get all genres from TMDB
+    genre_url = f"https://api.themoviedb.org/3/genre/movie/list?api_key={API_KEY}"
+    response = requests.get(genre_url)
+    tmdb_genres = response.json().get("genres", [])
+
+    # Step 2: Match local genre name with TMDB genre to get its ID
+    tmdb_genre_id = None
+    for g in tmdb_genres:
+        if g["name"].lower() == genre_name.lower():
+            tmdb_genre_id = g["id"]
+            break
+
+    if not tmdb_genre_id:
+        return render(request, "FilteredMovies.html", {
+            "genre": genre_name,
+            "movies": [],
+            "error": "Genre not found in TMDB.",
+            'data':data
+
+        })
+
+    # Step 3: Get movies by genre ID
+    movie_url = f"https://api.themoviedb.org/3/discover/movie"
+    params = {
+        "api_key": API_KEY,
+        "with_genres": tmdb_genre_id
+    }
+    movie_response = requests.get(movie_url, params=params)
+    movies = movie_response.json().get("results", [])
+
+    return render(request, "FilteredMovies.html", {
+        "genre": genre_name,
+        "genre_desc":genre_desc,
+        "movies": movies,
+        'data':data
+    })
+
 
 
 
@@ -163,27 +185,15 @@ def trending_movies(request):
     data = response.json().get('results', [])  # here is there is no reult we get a empty string
     print(data)
 
-    return render(request,"Trending.html",{'movies':data,'data':data})
+    return render(request,"Trending.html",{'movies':data,'data':data,'data1':data})
 
-
-
-def Genre(request):
-    data = GenreDB.objects.all()[:3]
-    API_KEY = settings.TMDB_API_KEY
-    category=request.GET.get("genre","popular")  # second parameter is the default value
-    base_URL="https://api.themoviedb.org/3/movie/"
-    url = f"{base_URL}{category}?api_key={API_KEY}"
-    response = requests.get(url)
-    data = response.json().get('results',[])  # here is there is no reult we get a empty string
-    print(data)
-    return render(request, "Movies.html", {'movies':data,'category':category,'data':data})
 
 
 
 
 
 def CastList(request):
-    data = GenreDB.objects.all()[:3]
+    data1 = GenreDB.objects.all()[:3]
     API_KEY = settings.TMDB_API_KEY  # Your TMDb API key
     category = request.GET.get("category", "popular")  # Default category is 'popular'
     base_url = "https://api.themoviedb.org/3/person/"
@@ -201,7 +211,7 @@ def CastList(request):
     else:
         data = []  # If API fails, return an empty list
 
-    return render(request, "CastList.html", {"cast": data, "category": category,'data':data})
+    return render(request, "CastList.html", {"cast": data, "category": category,'data':data,'data1':data1})
 
 
 def Movie_Details(request, movie_id):
@@ -209,12 +219,10 @@ def Movie_Details(request, movie_id):
     API_KEY = settings.TMDB_API_KEY
     base_URL = "https://api.themoviedb.org/3/movie/"
 
-    # Fetch movie details with cast information
     movie_url = f"{base_URL}{movie_id}?api_key={API_KEY}&append_to_response=credits"
     response = requests.get(movie_url)
     movie_data = response.json()
 
-    # Extract main cast (limit to 5 actors)
     cast_list = [cast["name"] for cast in movie_data.get("credits", {}).get("cast", [])[:5]]
 
     context = {
@@ -262,12 +270,17 @@ def add_to_wishlist(request, movie_id):
         messages.success(request, "Movie added to wishlist!")
         return redirect('Movie_Details', movie_id=movie_id)
 
-
 def view_wishlist(request):
     data = GenreDB.objects.all()[:3]
     if 'Username' not in request.session:
         messages.warning(request, "You need to log in first.")
         return redirect('User_Sign_In')
 
+    rating_filter = request.GET.get('rating')
     user_wishlist = Wishlist.objects.filter(user=request.session['Username'])
-    return render(request, "wishlist.html", {"wishlist": user_wishlist,'data':data})
+
+    # Apply rating filter if selected
+    if rating_filter:
+        user_wishlist = user_wishlist.filter(my_rating__gte=rating_filter)
+
+    return render(request, "wishlist.html", {"wishlist": user_wishlist, "data": data, "rating_filter": rating_filter})

@@ -60,7 +60,7 @@ def save_genre(request):
         desc=request.POST.get('gdescr')
         obj=GenreDB(name=name,Desc=desc)
         obj.save()
-        return redirect(index)
+        return redirect(add_genre)
 
 def view_genre(request):
     data=GenreDB.objects.all()
